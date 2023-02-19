@@ -1,4 +1,7 @@
-import type { MetaFunction } from '@remix-run/node';
+import RubikFont from '@fontsource/rubik/index.css';
+import { createEmotionCache, MantineProvider } from '@mantine/core';
+import { StylesPlaceholder } from '@mantine/remix';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -7,9 +10,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
-import { MantineProvider, createEmotionCache } from '@mantine/core';
-import { StylesPlaceholder } from '@mantine/remix';
-// import { theme } from './theme';
+
+import { theme } from './theme';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -17,11 +19,18 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
+export const links: LinksFunction = () => [
+  {
+    rel: 'stylesheet',
+    href: RubikFont,
+  },
+];
+
 createEmotionCache({ key: 'mantine' });
 
 export default function App() {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
       <html lang="en">
         <head>
           <StylesPlaceholder />
