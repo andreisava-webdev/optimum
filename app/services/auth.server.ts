@@ -1,4 +1,3 @@
-import { redirect } from '@remix-run/node';
 import bcrypt from 'bcryptjs';
 import { Authenticator, AuthorizationError } from 'remix-auth';
 import { FormStrategy } from 'remix-auth-form';
@@ -15,13 +14,15 @@ authenticator.use(
     const password = form.get('password') as string;
     const user = await db.user.findUnique({ where: { email } });
 
+    console.log(user);
+
     if (!user) throw new AuthorizationError('Invalid credentials');
 
-    const checkPassword = await bcrypt.compare(user.passwordHash, password);
+    const checkPassword = await bcrypt.compare(password, user.passwordHash);
 
     if (!checkPassword) throw new AuthorizationError('Invalid credentials');
 
-    return { id: user.id, email: user.email, role: user.role };
+    return { id: user.id, email: user.email };
   }),
   'user-pass'
 );
@@ -30,14 +31,4 @@ export const requireAuthentication = async (request: Request) => {
   return await authenticator.isAuthenticated(request, {
     failureRedirect: '/auth',
   });
-};
-
-export const requireAdmin = async (request: Request) => {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: '/auth',
-  });
-
-  if (user.role !== 'Admin') throw redirect('/');
-
-  return user;
 };

@@ -58,9 +58,9 @@ export const AuthForm = () => {
           {mode === 'register' && (
             <Group grow>
               <TextInput
-                name="firstname"
+                name="firstName"
                 placeholder="First name"
-                error={errors?.firstname}
+                error={errors?.firstName}
               />
               <TextInput
                 name="lastName"
