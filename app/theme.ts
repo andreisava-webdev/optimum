@@ -30,5 +30,5 @@ export const theme: MantineThemeOverride = {
   primaryColor: 'brand',
   primaryShade: 6,
   fontFamily: 'Rubik, sans-serif',
-  headings: { fontFamily: 'Rubik, sans-serif' },
+  headings: { fontFamily: 'Unbounded, Rubik, sans-serif' },
 };

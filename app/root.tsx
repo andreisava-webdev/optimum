@@ -1,4 +1,5 @@
 import RubikFont from '@fontsource/rubik/index.css';
+import UnboundedFont from '@fontsource/unbounded/index.css';
 import { createEmotionCache, MantineProvider } from '@mantine/core';
 import { StylesPlaceholder } from '@mantine/remix';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
@@ -20,6 +21,10 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => [
+  {
+    rel: 'stylesheet',
+    href: UnboundedFont,
+  },
   {
     rel: 'stylesheet',
     href: RubikFont,
