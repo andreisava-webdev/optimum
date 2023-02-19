@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import {
+  Anchor,
   Button,
   Flex,
   Group,
@@ -17,6 +18,8 @@ export const AuthForm = () => {
   const auth = useFetcher();
   const [searchParams, setSearchParams] = useSearchParams();
   const mode = searchParams.get('mode');
+  const errors = auth.data?.formErrors;
+  const isSubmitting = auth.state === 'submitting';
 
   useEffect(() => {
     if (!mode || (mode !== 'login' && mode !== 'register')) {
@@ -54,24 +57,60 @@ export const AuthForm = () => {
         <Stack mt={20}>
           {mode === 'register' && (
             <Group grow>
-              <TextInput name="firstname" placeholder="First name" />
-              <TextInput name="lastName" placeholder="Last name" />
+              <TextInput
+                name="firstname"
+                placeholder="First name"
+                error={errors?.firstname}
+              />
+              <TextInput
+                name="lastName"
+                placeholder="Last name"
+                error={errors?.lastName}
+              />
             </Group>
           )}
-          <TextInput type="email" name="email" placeholder="Email" />
-          <PasswordInput name="password" placeholder="Password" />
+          <TextInput
+            type="email"
+            name="email"
+            placeholder="Email"
+            error={errors?.email}
+          />
+          <PasswordInput
+            name="password"
+            placeholder="Password"
+            error={errors?.password}
+          />
           {mode === 'register' && (
             <PasswordInput
               name="confirmPassword"
               placeholder="Confirm password"
+              error={errors?.confirmPassword}
             />
           )}
 
-          <Button type="submit">
+          <Button type="submit" loading={isSubmitting}>
             {mode === 'login' ? 'Sign In' : 'Sign Up'}
           </Button>
         </Stack>
       </auth.Form>
+
+      <Text size={14}>
+        {mode === 'login' ? (
+          <>
+            Don't have an account?{' '}
+            <Anchor component={Link} to="/auth?mode=register">
+              Sign Up
+            </Anchor>
+          </>
+        ) : (
+          <>
+            Already have an account?{' '}
+            <Anchor component={Link} to="/auth?mode=register">
+              Sign in
+            </Anchor>
+          </>
+        )}
+      </Text>
     </Stack>
   );
 };
